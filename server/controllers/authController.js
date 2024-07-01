@@ -94,4 +94,14 @@ const signout = async (req, res) => {
     }
 }
 
-module.exports = { signin, signout, signup };
+const getMe = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id).select('-password');
+
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json(error.message);
+    }
+}
+
+module.exports = { signin, signout, signup, getMe };

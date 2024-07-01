@@ -17,10 +17,21 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
     likes: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Place',
+            default: []
+        }
+    ],
+    bookings: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Booking',
             default: []
         }
     ]
