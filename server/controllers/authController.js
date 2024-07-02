@@ -50,6 +50,8 @@ const signup = async (req, res) => {
                 email: newUser.email,
                 phone: newUser.phone,
                 password: newUser.password,
+                isAdmin: newUser.isAdmin,
+                bookings: newUser.bookings,
                 likes: newUser.likes
             });
         }
