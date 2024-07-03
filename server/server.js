@@ -6,6 +6,7 @@ const cloudinary = require('cloudinary').v2;
 const connectToDB = require('./db/conn.js');
 const authRoutes = require('./routes/authRoutes.js');
 const placeRoutes = require('./routes/placeRoutes.js');
+const bookingRoutes = require('./routes/bookingRoutes.js');
 
 dotenv.config();
 cloudinary.config({
@@ -23,6 +24,7 @@ app.use(cookieParser());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/places', placeRoutes);
+app.use('/api/bookings', bookingRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on PORT: ${PORT}`);

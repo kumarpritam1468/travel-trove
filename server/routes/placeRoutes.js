@@ -1,12 +1,13 @@
 const express = require('express');
 const protectRoute = require('../middlewares/protectRoute');
 const adminOnly = require('../middlewares/adminOnly');
-const { getAll, addPlace, deletePlace } = require('../controllers/placeController');
+const { getAll, addPlace, deletePlace, likePlace } = require('../controllers/placeController');
 
 const router = express.Router();
 
 router.get('/', protectRoute, getAll);
-router.post('/add', protectRoute, adminOnly, addPlace);
-router.delete('/delete/:id', protectRoute, adminOnly, deletePlace);
+router.post('/add', adminOnly, addPlace);
+router.post('/like/:id', protectRoute, likePlace);
+router.delete('/delete/:id', adminOnly, deletePlace);
 
 module.exports = router;
