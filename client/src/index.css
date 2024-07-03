@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+.hero {
+    background: url('/hero-bg.jpg') top/cover;
+}
+
+.outline {
+    -webkit-text-stroke: 3px white;
+    /* backdrop-filter: blur(8px); */
+    color: transparent;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
+}
+
+@media screen and (min-width: 1440px) {
+    html {
+        font-size: 125%;
+    }
+}
+
+@media screen and (max-width: 1023px) {
+    html {
+        font-size: 85%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    html {
+        font-size: 70%;
+    }
+}
