@@ -18,10 +18,10 @@ body{
     background-blend-mode: darken;
 } */
 
-.discover {
+/* .discover {
     background: url('/ocean.jpg') rgba(0, 0, 0, 0.3) top/cover;
     background-blend-mode: darken;
-}
+} */
 
 .outline {
     -webkit-text-stroke: 3px white;
@@ -29,6 +29,10 @@ body{
     color: transparent;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 
+}
+
+.outline2 {
+    -webkit-text-stroke: 1px black;
 }
 
 @media screen and (min-width: 1440px) {

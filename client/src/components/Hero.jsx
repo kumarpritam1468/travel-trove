@@ -12,8 +12,8 @@ const Hero = () => {
 
   const scaleMotion = useTransform(scrollYProgress, [0, 1], [1, 2]);
   return (
-    <section className='hero h-[100svh] flex flex-col gap-10 items-center justify-center pt-12 bg-black/20' ref={ref}>
-      <motion.img src="/hero-bg.jpg" alt="" className=' w-screen object-cover absolute -z-10' style={{scale:scaleMotion}} />
+    <section className='hero h-[100svh] flex flex-col gap-10 items-center justify-center pt-12 bg-black/20 overflow-hidden' ref={ref}>
+      <motion.img src="/hero-bg.jpg" alt="" className=' w-screen h-[100svh] object-cover absolute top-0 -z-10' style={{scale:scaleMotion}} />
       <div>
         <h1 className=' text-9xl font-extrabold text-white text-center '>
           TRAVEL

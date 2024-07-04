@@ -1,33 +1,48 @@
-import React from 'react'
-import {placesDummy} from '../data/dummy';
+import React, { useRef } from 'react'
+import { placesDummy } from '../data/dummy';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { IoMdHeart } from "react-icons/io";
+import Tilt from "react-parallax-tilt"
 
 const Discover = () => {
-  return (
-    <section className='discover h-[100svh] flex flex-col gap-10 pt-28 px-16'>
-        <h1 className=' text-5xl font-medium text-white'>Our Top Picks</h1>
+    const ref = useRef();
 
-        <div className=' flex gap-6'>
-            {placesDummy.map((place, index) => (
-                <div key={index} className=' flex-1 h-fit text-white p-4 backdrop-blur rounded-2xl bg-white/15'>
-                    <div className=' h-48 w-full rounded-2xl overflow-hidden'>
-                        <img src={place.imgUrl} alt={place.name} className=' object-cover' />
-                    </div>
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ["start start", "end start"]
+    });
 
-                    <h2>
-                        {place.name}
-                    </h2>
-                    <p className=' text-xs'>
-                        {place.desc}
-                    </p>
-                    <div>
-                        <div>Like</div>
-                        <div>Book Now</div>
-                    </div>
-                </div>
-            ))}
-        </div>
-    </section>
-  )
+    const scaleMotion = useTransform(scrollYProgress, [0, 1], [1, 2]);
+
+    return (
+        <section className='discover h-[100svh] max-md:h-fit max-md:pb-12 flex flex-col gap-10 pt-28 px-16 relative bg-black/30' ref={ref}>
+            <motion.img src='/ocean.jpg' alt='Ocean' className=' w-screen  h-[100svh] max-md:h-full object-cover absolute top-0 left-0 -z-10' style={{ scale: scaleMotion }} />
+            <h1 className='outline2 text-5xl font-bold text-white'>Our Top Picks</h1>
+
+            <div className=' flex flex-wrap max-md:flex-col gap-6'>
+                {placesDummy.map((place, index) => (
+                    <Tilt key={index} className=' flex-1 h-fit text-white p-3 backdrop-blur rounded-2xl bg-white/15 flex flex-col gap-4'>
+                        <div className=' h-48 w-full rounded-2xl overflow-hidden relative'>
+                            <img src={place.imgUrl} alt={place.name} className=' object-cover hover:scale-110 transition-all duration-300 ease-in-out ' />
+                            <div className={` text-white text-[1.7rem] absolute left-5 top-5 cursor-pointer hover:text-red-200 transition-all duration-300 ease-in-out`}><IoMdHeart/></div>
+                        </div>
+
+                        <div>
+                            <h2 className=' text-2xl font-bold outline2'>
+                                {place.name}
+                            </h2>
+                            <p className=' text-sm leading-4 mt-1 font-normal'>
+                                {place.desc}
+                            </p>
+                        </div>
+                        <div className=' flex items-center justify-center gap-4 px-6 mb-2'>
+                            <button className=' font-semibold px-6 py-2 bg-blue-500 rounded-full hover:bg-white hover:text-blue-600 transition-all duration-300 ease-in-out'>Book Now</button>
+                        </div>
+                    </Tilt>
+                ))}
+            </div>
+        </section>
+    )
 }
 
 export default Discover
