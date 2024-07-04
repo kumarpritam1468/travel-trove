@@ -2,7 +2,7 @@ import React from 'react'
 
 const Navbar = () => {
   return (
-    <nav className=' fixed h-[10svh] w-full bg-transparent flex justify-between items-center px-8 text-white'>
+    <nav className=' fixed z-50 h-[10svh] w-full bg-transparent flex justify-between items-center px-8 text-white'>
       <div className=' rounded-3xl px-4 py-0.5 backdrop-blur-md border border-white flex gap-2 items-center max-md:hidden hover:bg-white/15 hover:rounded-md transition-all duration-300 ease-in-out'>
         <img src="./logo.png" alt="Logo" width={40} />
         <h1>Travel-Trove</h1>
