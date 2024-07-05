@@ -15,8 +15,8 @@ const Discover = () => {
     const scaleMotion = useTransform(scrollYProgress, [0, 1], [1, 2]);
 
     return (
-        <section className='discover h-[100svh] max-md:h-fit max-md:pb-12 flex flex-col gap-10 pt-28 px-16 relative bg-black/30' ref={ref}>
-            <motion.img src='/ocean.jpg' alt='Ocean' className=' w-screen  h-[100svh] max-md:h-full object-cover absolute top-0 left-0 -z-10' style={{ scale: scaleMotion }} />
+        <section className='discover h-[100svh] w-screen max-lg:h-fit max-lg:pb-12 flex flex-col gap-10 pt-28 px-16 relative bg-black/30' ref={ref}>
+            <motion.img src='/ocean.jpg' alt='Ocean' className=' w-screen max-w-screen  h-[100svh] max-lg:h-full object-cover absolute top-0 left-0 -z-10 overflow-hidden' style={{ scale: scaleMotion }} />
             <h1 className='outline2 text-5xl font-bold text-white'>Our Top Picks</h1>
 
             <div className=' flex flex-wrap max-md:flex-col gap-6'>
