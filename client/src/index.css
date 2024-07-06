@@ -22,6 +22,15 @@ input, textarea{
     backdrop-filter: blur(4px);
 }
 
+a.active{
+    background: rgba(255, 255, 255, .25);
+}
+
+.allplaces{
+    background: url('../public/hero-bg.jpg') rgba(0, 0, 0, 0.3) top repeat;
+    background-blend-mode: darken;
+}
+
 .outline {
     -webkit-text-stroke: 3px white;
     /* backdrop-filter: blur(8px); */
