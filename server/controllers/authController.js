@@ -98,7 +98,7 @@ const signout = async (req, res) => {
 
 const getMe = async (req, res) => {
     try {
-        const user = await User.findById(req.user._id).select('-password');
+        const user = await User.findById(req.user._id).select('-password').populate('likes').populate('bookings');
 
         res.status(200).json(user);
     } catch (error) {
