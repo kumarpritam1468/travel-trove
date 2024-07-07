@@ -1,6 +1,7 @@
 import React from 'react'
+import {Link, NavLink} from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({type}) => {
   return (
     <nav className=' fixed z-50 h-[10svh] w-full bg-transparent flex justify-between items-center px-8 text-white'>
       <div className=' rounded-3xl px-4 py-0.5 backdrop-blur-md border border-white flex gap-2 items-center max-md:hidden hover:bg-white/15 hover:rounded-md transition-all duration-300 ease-in-out'>
@@ -8,10 +9,10 @@ const Navbar = () => {
         <h1>Travel-Trove</h1>
       </div>
       <div className=' rounded-full p-1 backdrop-blur-md flex items-center justify-center gap-2 text-lg border border-white'>
-        <a href="" className=' bg-white/25 rounded-full py-1 px-6' >Home</a>
-        <a href="" className=' hover:bg-white/15 rounded-full py-1 px-6 transition-all duration-300 ease-in-out'>Discover</a>
-        <a href="" className=' hover:bg-white/15 rounded-full py-1 px-6 transition-all duration-300 ease-in-out max-md:hidden'>About</a>
-        <a href="" className=' hover:bg-white/15 rounded-full py-1 px-6 transition-all duration-300 ease-in-out'>Contact</a>
+        <NavLink to="/" className='hover:bg-white/15 rounded-full py-1 px-6 transition-all duration-300 ease-in-out' >Home</NavLink>
+        <NavLink to="/discover" className=' hover:bg-white/15 rounded-full py-1 px-6 transition-all duration-300 ease-in-out'>Discover</NavLink>
+        <NavLink to="/contact" className=' hover:bg-white/15 rounded-full py-1 px-6 transition-all duration-300 ease-in-out'>Contact</NavLink>
+        <NavLink to="/admin/bookings" className=' hover:bg-white/15 rounded-full py-1 px-6 transition-all duration-300 ease-in-out'>Admin</NavLink>
       </div>
       {/* <div className=' rounded-full px-4 py-2 backdrop-blur-md border border-white'> */}
       {/* </div> */}
@@ -26,12 +27,12 @@ const Navbar = () => {
           tabIndex={0}
           className="menu menu-sm dropdown-content backdrop-blur-md rounded-box z-[1] mt-3 w-52 p-3 shadow border border-white ">
           <li>
-            <a className=' max-md:text-xl'>
+            <Link to='/likes' className=' max-md:text-xl'>
               Wishlist
-            </a>
+            </Link>
           </li>
-          <li><a className=' max-md:text-xl'>My Bookings</a></li>
-          <li><a className=' max-md:text-xl'>Logout</a></li>
+          <li><Link className=' max-md:text-xl'>My Bookings</Link></li>
+          <li><Link className=' max-md:text-xl'>Logout</Link></li>
         </ul>
       </div>
     </nav>
