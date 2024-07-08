@@ -26,9 +26,9 @@ const TableViewer = () => {
                                 <td className=' text-lg'>{place.name}</td>
                                 <td className=' text-lg'>$500</td>
                                 <td>
-                                    {path === '/likes' ? 
-                                    <div className=' btn btn-warning'>Unlike</div> :
-                                    <div className=' btn btn-error'>Cancel</div>}
+                                    {path === '/likes' ?
+                                        <div className=' btn btn-warning'>Unlike</div> :
+                                        <div className=' btn btn-error'>Cancel</div>}
                                 </td>
                             </tr>
                         ))}

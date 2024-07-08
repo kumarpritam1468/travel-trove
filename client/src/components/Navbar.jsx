@@ -31,7 +31,7 @@ const Navbar = ({type}) => {
               Wishlist
             </Link>
           </li>
-          <li><Link className=' max-md:text-xl'>My Bookings</Link></li>
+          <li><Link className=' max-md:text-xl' to='/bookings'>My Bookings</Link></li>
           <li><Link className=' max-md:text-xl'>Logout</Link></li>
         </ul>
       </div>
