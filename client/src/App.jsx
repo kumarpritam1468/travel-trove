@@ -9,6 +9,8 @@ import DiscoverAll from "./pages/DiscoverAll";
 import TableViewer from "./pages/TableViewer";
 import BookingTableViewer from "./pages/BookingTableViewer";
 import AdminNavbar from "./components/AdminNavbar";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 function App() {
   useEffect(() => {
@@ -24,6 +26,8 @@ function App() {
     <main>
       <Routes>
         <Route path="/" element={<><Navbar/><Home /></>} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/signup" element={<Signup/>} />
         <Route path="/discover" element={<><Navbar/><DiscoverAll /></>} />
         <Route path="/likes" element={<><UserNavbar/><TableViewer/></>} />
         <Route path="/bookings" element={<><UserNavbar/><TableViewer/></>} />
