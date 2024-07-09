@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { placesDummy } from '../data/dummy'
 import { IoMdHeart } from "react-icons/io";
 import Tilt from 'react-parallax-tilt';
@@ -13,6 +13,17 @@ const TopPlaces = () => {
     // });
 
     // const scaleMotion = useTransform(scrollYProgress, [0, 1], [1, 2]);
+
+    const [input, setInput] = useState({
+        from:'',
+        totalDays:'',
+        totalPeople:'',
+        price:''
+    });
+
+    const handleInput = (e) => {
+        e.preventDefault();
+    }
 
     return (
         <section className=' h-[300svh] w-screen overflow-x-hidden'>
@@ -55,24 +66,27 @@ const TopPlaces = () => {
                 )
             })}
             <dialog id="my_modal" className="modal">
-                <div className="modal-box flex flex-col gap-6 items-center justify-center bg-white/10 backdrop-blur-3xl">
-                    <h2 className="font-bold text-lg text-white">Confirm Booking</h2>
-                    <form className='flex flex-col gap-2'>
-                        <input type="date" name="date" placeholder='From?' className=' input input-bordered w-full' />
-                        <input type="text" placeholder='Number of Days' className=' input input-bordered w-full' />
-                        <input type="number" placeholder='Number of Persons' className=' input input-bordered w-full' />
-                        <h3 className=' text-center text-white text-lg font-semibold'>Total Cost : $6,000</h3>
-                        <p className=' text-center text-gray-300'>Note : The price written is for per person/day and all types of costs starting from travel from Mumbai is included, you will be contacted on your registered phone number to plan your trip further</p>
-                        <button className=' btn btn-primary text-white'>Confirm</button>
-                        <div className="modal-action w-full mt-0">
-                            <form method="dialog" className=' w-full'>
-                                {/* if there is a button in form, it will close the modal */}
-                                <button className="btn btn-warning w-full">Cancel</button>
+                        <div className="modal-box flex flex-col gap-6 items-center justify-center bg-white/10 backdrop-blur-3xl">
+                            <h2 className="font-bold text-lg text-white">Confirm Booking</h2>
+                            <form className='flex flex-col gap-2' onSubmit={handleInput}>
+                                <div className=' w-full'>
+                                    <label htmlFor="date" className=' ml-2'>From?</label>
+                                    <input type="date" name="date" placeholder='DD-MM-YYYY' id='date' className=' input input-bordered w-full' />
+                                </div>
+                                <input type="number" placeholder='Number of Days' className=' input input-bordered w-full' />
+                                <input type="number" placeholder='Number of Persons' className=' input input-bordered w-full' />
+                                <h3 className=' text-center text-white text-lg font-semibold'>Total Cost : $6,000</h3>
+                                <p className=' text-center text-gray-300'>Note : The price written is for per person/day and all types of costs starting from travel from Mumbai is included, you will be contacted on your registered phone number to plan your trip further</p>
+                                <button className=' btn btn-primary text-white' type='submit'>Confirm</button>
+                                <div className="modal-action w-full mt-0">
+                                    <form method="dialog" className=' w-full'>
+                                        {/* if there is a button in form, it will close the modal */}
+                                        <button className="btn btn-warning w-full">Cancel</button>
+                                    </form>
+                                </div>
                             </form>
                         </div>
-                    </form>
-                </div>
-            </dialog>
+                    </dialog>
         </section>
     )
 }

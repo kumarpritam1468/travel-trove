@@ -7,8 +7,12 @@ const Signup = () => {
         email: '',
         phone: '',
         password: '',
-        confirmPassword: ''
+        cPassword: ''
     });
+
+    const handleInput = (e) => {
+        e.preventDefault();
+    }
     return (
         <section className='allplaces h-screen flex justify-center items-center' >
             <div className='flex flex-col items-center justify-center min-w-96 mx-auto'>
@@ -17,7 +21,7 @@ const Signup = () => {
                         Sign Up to Travel Trove
                     </h1>
 
-                    <form className=' flex gap-4 flex-col'>
+                    <form className=' flex gap-4 flex-col' onSubmit={handleInput}>
                         <div>
                             <input type='text' placeholder='Name' className='w-full input input-bordered  h-10' value={inputs.name} onChange={(e) => setInputs({ ...inputs, name: e.target.value })} />
                         </div>
@@ -44,8 +48,8 @@ const Signup = () => {
                                 type='password'
                                 placeholder='Confirm Password'
                                 className='w-full input input-bordered h-10'
-                                value={inputs.confirmPassword}
-                                onChange={(e) => setInputs({ ...inputs, confirmPassword: e.target.value })}
+                                value={inputs.cPassword}
+                                onChange={(e) => setInputs({ ...inputs, cPassword: e.target.value })}
                             />
                         </div>
 
@@ -56,6 +60,7 @@ const Signup = () => {
                         <div>
                             <button
                                 className='btn btn-block btn-primary text-base bg-blue-500 btn-sm mt-2 border border-slate-700'
+                                type='submit'
                             >
                                 Signup
                             </button>

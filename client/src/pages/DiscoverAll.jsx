@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { placesDummy } from '../data/dummy'
 import Tilt from 'react-parallax-tilt';
 import { IoMdHeart } from "react-icons/io";
 
 const DiscoverAll = () => {
+    const [input, setInput] = useState({
+        from:'',
+        totalDays:'',
+        totalPeople:'',
+        price:''
+    });
+
+    const handleInput = (e) => {
+        e.preventDefault();
+    }
     return (
         <section className='allplaces pt-24 pb-6'>
             <div className=" px-20 flex flex-col min-h-full h-fit gap-6 ">
@@ -72,7 +82,7 @@ const DiscoverAll = () => {
                     <dialog id="my_modal" className="modal">
                         <div className="modal-box flex flex-col gap-6 items-center justify-center bg-white/10 backdrop-blur-3xl">
                             <h2 className="font-bold text-lg text-white">Confirm Booking</h2>
-                            <form className='flex flex-col gap-2'>
+                            <form className='flex flex-col gap-2' onSubmit={handleInput}>
                                 <div className=' w-full'>
                                     <label htmlFor="date" className=' ml-2'>From?</label>
                                     <input type="date" name="date" placeholder='DD-MM-YYYY' id='date' className=' input input-bordered w-full' />
@@ -81,7 +91,7 @@ const DiscoverAll = () => {
                                 <input type="number" placeholder='Number of Persons' className=' input input-bordered w-full' />
                                 <h3 className=' text-center text-white text-lg font-semibold'>Total Cost : $6,000</h3>
                                 <p className=' text-center text-gray-300'>Note : The price written is for per person/day and all types of costs starting from travel from Mumbai is included, you will be contacted on your registered phone number to plan your trip further</p>
-                                <button className=' btn btn-primary text-white'>Confirm</button>
+                                <button className=' btn btn-primary text-white' type='submit'>Confirm</button>
                                 <div className="modal-action w-full mt-0">
                                     <form method="dialog" className=' w-full'>
                                         {/* if there is a button in form, it will close the modal */}

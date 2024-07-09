@@ -3,9 +3,13 @@ import { Link } from 'react-router-dom';
 
 const Login = () => {
     const [inputs, setInputs] = useState({
-        userName: '',
+        email: '',
         password: ''
-      });
+    });
+
+    const handleInput = (e) => {
+        e.preventDefault();
+    }
     return (
         <section className='allplaces h-screen flex justify-center items-center' >
             <div className=' flex flex-col justify-center items-center min-w-96 mx-auto'>
@@ -15,14 +19,14 @@ const Login = () => {
                         Login to Travel Trove
                     </h1>
 
-                    <form >
+                    <form onSubmit={handleInput} >
 
                         <div>
                             <label className=' label p-2'>
-                                <span className=' text-base label-text'>Username</span>
+                                <span className=' text-base label-text'>Email</span>
                             </label>
-                            <input type="text" placeholder='Enter Username' className=' w-full input input-bordered h-10'
-                                value={inputs.userName} onChange={(e) => setInputs({ ...inputs, userName: e.target.value })} />
+                            <input type="text" placeholder='Enter Email' className=' w-full input input-bordered h-10'
+                                value={inputs.email} onChange={(e) => setInputs({ ...inputs, email: e.target.value })} />
                         </div>
 
                         <div>
