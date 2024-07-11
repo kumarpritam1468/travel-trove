@@ -1,5 +1,7 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast'
 
 const Login = () => {
     const [inputs, setInputs] = useState({
@@ -7,9 +9,39 @@ const Login = () => {
         password: ''
     });
 
+    const queryClient = useQueryClient();
+
+    const { mutate: login, isPending } = useMutation({
+        mutationFn: async (inputs) => {
+            try {
+                const response = await fetch('/api/auth/signin', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(inputs)
+                });
+                const data = await response.json();
+
+                if (!response.ok) throw new Error(data.error || "Something Went Wrong");
+
+                // return data;
+            } catch (error) {
+                throw new Error(error);
+            }
+        },
+        onSuccess: () => {
+            toast.success('Logged In');
+            queryClient.invalidateQueries({queryKey:['authUser']});
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        }
+    })
+
     const handleInput = (e) => {
         e.preventDefault();
+        login(inputs);
     }
+
     return (
         <section className='allplaces h-screen flex justify-center items-center' >
             <div className=' flex flex-col justify-center items-center min-w-96 mx-auto'>
@@ -42,7 +74,7 @@ const Login = () => {
 
                         <div>
                             <button className=' btn btn-block btn-primary bg-blue-500 btn-sm text-base mt-4'>
-                                Login
+                                {isPending ? <div className=' loading loading-spinner'></div> : 'Login'}
                             </button>
                         </div>
                     </form>

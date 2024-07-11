@@ -1,5 +1,7 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast'
 
 const Signup = () => {
     const [inputs, setInputs] = useState({
@@ -10,8 +12,36 @@ const Signup = () => {
         cPassword: ''
     });
 
+    const queryClient = useQueryClient();
+
+    const { mutate: signup, isPending } = useMutation({
+        mutationFn: async (inputs) => {
+            try {
+                const response = await fetch('/api/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(inputs)
+                })
+
+                const data = await response.json();
+
+                if (!response.ok) throw new Error(data.error || 'Something went wrong');
+            } catch (error) {
+                throw new Error(error);
+            }
+        },
+        onSuccess: () => {
+            toast.success('Sign up successful');
+            queryClient.invalidateQueries({queryKey:['authUser']});
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        }
+    })
+
     const handleInput = (e) => {
         e.preventDefault();
+        signup(inputs);
     }
     return (
         <section className='allplaces h-screen flex justify-center items-center' >
@@ -30,7 +60,7 @@ const Signup = () => {
                             <input type='email' placeholder='E-mail' className='w-full input input-bordered h-10' value={inputs.email} onChange={(e) => setInputs({ ...inputs, email: e.target.value })} />
                         </div>
                         <div>
-                            <input type='email' placeholder='Phone Number' className='w-full input input-bordered h-10' value={inputs.phone} onChange={(e) => setInputs({ ...inputs, phone: e.target.value })} />
+                            <input type='number' placeholder='Phone Number' className='w-full input input-bordered h-10' value={inputs.phone} onChange={(e) => setInputs({ ...inputs, phone: e.target.value })} />
                         </div>
 
                         <div>
@@ -62,7 +92,7 @@ const Signup = () => {
                                 className='btn btn-block btn-primary text-base bg-blue-500 btn-sm mt-2 border border-slate-700'
                                 type='submit'
                             >
-                                Signup
+                                {isPending ? <div className=' loading loading-spinner'></div> : 'Sign Up'}
                             </button>
                         </div>
                     </form>
