@@ -3,12 +3,19 @@ import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
+import likePost from '../hooks/useLikePost';
 
 const TableViewer = () => {
     const path = useLocation().pathname;
+    const {data:authUser} = useQuery({queryKey:['authUser']});
 
+    if(path === '/admin/places') {
+        var { data: places, isLoading } = useQuery({ queryKey: ['places'] });
+    } else if (path === '/likes') {
+        var places = authUser.likes;
+    }
 
-    var { data: places, isLoading } = useQuery({ queryKey: ['places'] });
+    const {like, isLiking} = likePost();
 
     const [img, setImg] = useState('');
     const [input, setInput] = useState({
@@ -49,6 +56,7 @@ const TableViewer = () => {
             })
             toast.success("Added a new place");
             document.getElementById('my_modal_2').close();
+            document.getElementById('imageFile').value = null;
             queryClient.invalidateQueries({ queryKey: ['places'] });
         },
         onError: (error) => {
@@ -118,7 +126,9 @@ const TableViewer = () => {
                                     <td className=' text-lg'>{place.budget}$</td>
                                     <td>
                                         {path === '/likes' ?
-                                            <div className=' btn btn-warning'>Unlike</div> :
+                                            <div className=' btn btn-warning' onClick={() => like(place._id)}>
+                                                {isLiking ? <div className=' loading loading-spinner'></div> : 'Unlike'}
+                                            </div> :
                                             <div className=' btn btn-error' onClick={() => deletePlace(place._id)}>
                                                 {isDeleting ? <div className=' loading loading-spinner'></div> : 'Delete'}
                                             </div>}

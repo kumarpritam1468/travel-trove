@@ -4,12 +4,7 @@ const cloudinary = require('cloudinary').v2;
 
 const getAll = async (req, res) => {
     try {
-        const places = await Place.find()
-            .populate({
-                path: 'likedBy',
-                select: '-password'
-            })
-            .populate({
+        const places = await Place.find().populate({
                 path: 'bookedBy',
                 select: '-password'
             });
