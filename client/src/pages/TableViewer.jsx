@@ -1,31 +1,97 @@
 import React, { useState } from 'react'
-import { placesDummy } from '../data/dummy'
+// import { placesDummy } from '../data/dummy'
 import { useLocation } from 'react-router-dom'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 
 const TableViewer = () => {
     const path = useLocation().pathname;
 
-    const [img, setImg] = useState(null);
+
+    var { data: places, isLoading } = useQuery({ queryKey: ['places'] });
+
+    const [img, setImg] = useState('');
     const [input, setInput] = useState({
-        name:'',
-        desc:'',
-        city:'',
-        imgUrl:img,
-        price:''
+        name: '',
+        desc: '',
+        city: '',
+        budget: ''
     });
+
+    const queryClient = useQueryClient();
+
+    const { mutate: addPlace, isPending: isAdding } = useMutation({
+        mutationFn: async ({ input, img }) => {
+            try {
+                const imgUrl = img;
+                const { name, city, budget, desc } = input;
+                console.log(JSON.stringify({ name, city, budget, desc, imgUrl }));
+                const response = await fetch('/api/places/add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, city, budget, desc, imgUrl })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) throw new Error(data.error || 'Something went wrong');
+            } catch (error) {
+                throw new Error(error);
+            }
+        },
+        onSuccess: () => {
+            setImg('');
+            setInput({
+                name: '',
+                desc: '',
+                city: '',
+                budget: ''
+            })
+            toast.success("Added a new place");
+            document.getElementById('my_modal_2').close();
+            queryClient.invalidateQueries({ queryKey: ['places'] });
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        }
+    })
+
+    const { mutate: deletePlace, isPending: isDeleting } = useMutation({
+        mutationFn: async (placeId) => {
+            try {
+                const response = await fetch(`/api/places/delete/${placeId}`, {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) throw new Error(data.error || 'Something went wrong');
+            } catch (error) {
+                throw new Error(error);
+            }
+        },
+        onSuccess: () => {
+            toast.success("Deleted");
+            queryClient.invalidateQueries({ queryKey: ['places'] });
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        }
+    })
 
     const handleInputs = (e) => {
         e.preventDefault();
+        addPlace({ input, img });
     }
 
     const handleImgChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
+            reader.readAsDataURL(file);
             reader.onload = () => {
                 setImg(reader.result);
             };
-            reader.readAsDataURL(file);
         }
     };
     return (
@@ -42,21 +108,25 @@ const TableViewer = () => {
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {placesDummy.map((place, index) => (
-                            <tr key={index}>
-                                <th>{index + 1}</th>
-                                <td className=' flex items-center justify-center'><div className=' h-20 w-20 rounded-2xl'><img src={place.imgUrl} alt={place.name} className=' object-cover' /></div></td>
-                                <td className=' text-lg'>{place.name}</td>
-                                <td className=' text-lg'>$500</td>
-                                <td>
-                                    {path === '/likes' ?
-                                        <div className=' btn btn-warning'>Unlike</div> :
-                                        <div className=' btn btn-error'>Cancel</div>}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
+                    {isLoading ? <div className=' loading loading-spinner'></div>
+                        : <tbody>
+                            {places?.map((place, index) => (
+                                <tr key={index}>
+                                    <th>{index + 1}</th>
+                                    <td className=' flex items-center justify-center'><div className=' h-20 w-20 rounded-2xl'><img src={place.imgUrl} alt={place.name} className=' object-cover' /></div></td>
+                                    <td className=' text-lg'>{place.name}</td>
+                                    <td className=' text-lg'>{place.budget}$</td>
+                                    <td>
+                                        {path === '/likes' ?
+                                            <div className=' btn btn-warning'>Unlike</div> :
+                                            <div className=' btn btn-error' onClick={() => deletePlace(place._id)}>
+                                                {isDeleting ? <div className=' loading loading-spinner'></div> : 'Delete'}
+                                            </div>}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    }
                 </table>
             </div>
 
@@ -74,11 +144,13 @@ const TableViewer = () => {
                             <label htmlFor="imageFile">Upload a Photo</label>
                             <input type='file' id='imageFile' onChange={handleImgChange} />
                         </div>
-                        <input type="text" placeholder='Place Name' className=' input input-bordered w-full' />
-                        <input type="text" placeholder='Description' className=' input input-bordered w-full' />
-                        <input type="text" placeholder='Place City' className=' input input-bordered w-full' />
-                        <input type="number" placeholder='Price per person/day' className=' input input-bordered w-full' />
-                        <button className=' btn btn-primary text-white' type='submit'>Add</button>
+                        <input type="text" placeholder='Place Name' className=' input input-bordered w-full' value={input.name} onChange={(e) => setInput({ ...input, name: e.target.value })} />
+                        <input type="text" placeholder='Description' className=' input input-bordered w-full' value={input.desc} onChange={(e) => setInput({ ...input, desc: e.target.value })} />
+                        <input type="text" placeholder='Place City' className=' input input-bordered w-full' value={input.city} onChange={(e) => setInput({ ...input, city: e.target.value })} />
+                        <input type="number" placeholder='Price per person/day' className=' input input-bordered w-full' value={input.budget} onChange={(e) => setInput({ ...input, budget: e.target.value })} />
+                        <button className=' btn btn-primary text-white' type='submit'>
+                            {isAdding ? <div className=' loading loading-spinner'></div> : 'Add'}
+                        </button>
                         <div className="modal-action w-full mt-0">
                             <form method="dialog" className=' w-full'>
                                 {/* if there is a button in form, it will close the modal */}
@@ -92,4 +164,4 @@ const TableViewer = () => {
     )
 }
 
-export default TableViewer
+export default TableViewer;
