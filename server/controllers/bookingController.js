@@ -52,10 +52,11 @@ const getAllBooking = async (req, res) => {
         const bookings = await Booking.find()
             .populate({
                 path: 'user',
-                select: '-password'
+                select: 'name'
             })
             .populate({
-                path: 'place'
+                path: 'place',
+                select: 'name'
             });
 
         if (!bookings) return res.status(200).json([]);
