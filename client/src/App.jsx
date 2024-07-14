@@ -35,7 +35,6 @@ function App() {
         if (!response.ok) {
           throw new Error(data.error || 'Something Went Wrong');
         }
-        console.log(data);
         return data;
       } catch (error) {
         throw new Error(error);

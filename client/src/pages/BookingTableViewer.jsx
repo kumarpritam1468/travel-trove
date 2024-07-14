@@ -65,11 +65,11 @@ const BookingTableViewer = () => {
                         : <tbody>
                             {bookings.length === 0 && <h1 className=' text-xl'>No bookings</h1>}
                             {bookings?.map((booking, index) => {
-                                const bookingFrom = convertMongoDateToDate(booking.from);
+                                let bookingFrom = convertMongoDateToDate(booking.from);
                                 return (
                                     <tr key={index}>
                                         <th>{index + 1}</th>
-                                        <td className=' text-lg'>{booking.place}</td>
+                                        <td className=' text-lg'>{booking.place.name}</td>
                                         <td className=' text-lg'>${booking.price}</td>
                                         <td className=' text-lg'>{booking.user.name}</td>
                                         <td className=' text-lg'>{bookingFrom}</td>

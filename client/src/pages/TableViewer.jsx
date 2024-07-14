@@ -12,7 +12,7 @@ const TableViewer = () => {
     if(path === '/admin/places') {
         var { data: places, isLoading } = useQuery({ queryKey: ['places'] });
     } else if (path === '/likes') {
-        var places = authUser.likes;
+        var places = authUser?.likes;
     }
 
     const {like, isLiking} = likePost();
