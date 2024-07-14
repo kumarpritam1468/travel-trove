@@ -56,7 +56,7 @@ const getAllBooking = async (req, res) => {
             })
             .populate({
                 path: 'place',
-                select: 'name'
+                select: ['name','imgUrl']
             });
 
         if (!bookings) return res.status(200).json([]);
