@@ -18,8 +18,7 @@ cloudinary.config({
 
 const app = express();
 const PORT = process.env.PORT;
-
-const app = express();
+__dirname = path.resolve();
 
 app.use(express.json({limit:'5mb'}));
 app.use(cookieParser());
