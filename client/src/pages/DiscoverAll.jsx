@@ -16,7 +16,7 @@ const DiscoverAll = () => {
         from: '',
         totalDays: '',
         totalPeople: '',
-        price: 0
+        price: 'z'
     });
 
     return (
@@ -64,13 +64,14 @@ const DiscoverAll = () => {
                                                 </div>
                                                 <input type="number" placeholder='Number of Days' className=' input input-bordered w-full' value={input.totalDays} onChange={(e) => setInput({ ...input, totalDays: e.target.value, price: place.budget * input.totalPeople * input.totalDays })} />
                                                 <input type="number" placeholder='Number of Persons' className=' input input-bordered w-full' value={input.totalPeople} onChange={(e) => setInput({ ...input, totalPeople: e.target.value, price: place.budget * input.totalPeople * input.totalDays })} />
-                                                <h3 className=' text-center text-white text-lg font-semibold'>Total Cost : ${place.budget * input.totalPeople * input.totalDays}</h3>
+                                                <h3 className=' text-center text-white text-lg font-semibold' >Total Cost : ${place.budget * input.totalPeople * input.totalDays}</h3>
                                                 <p className=' text-center text-gray-300'>Note : The price is calculated as per persons, days and all types of costs starting from travel from Mumbai is included, you will be contacted on your registered phone number to plan your trip further</p>
                                                 <button
                                                     className=' btn btn-primary text-white'
                                                     type='submit'
                                                     onClick={(e) => {
                                                         e.preventDefault();
+                                                        input.price = place.budget * input.totalPeople * input.totalDays;
                                                         book({ placeId, input });
                                                         setInput({
                                                             from: '',
@@ -78,6 +79,7 @@ const DiscoverAll = () => {
                                                             totalPeople: '',
                                                             price: ''
                                                         })
+                                                        document.getElementById(`my_modal${index}`).close()
                                                     }}
                                                 >
                                                     {isBooking ? <div className=' loading loading-spinner'></div> : 'Confirm'}

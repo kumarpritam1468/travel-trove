@@ -23,6 +23,7 @@ const TopPlaces = () => {
     return (
         <section className=' h-[300svh] w-screen overflow-x-hidden'>
             {filteredPlaces.map((place, index) => {
+                const placeId = place._id;
                 const alreadyLiked = place.likedBy.includes(authUser?._id);
 
                 return (
@@ -52,24 +53,39 @@ const TopPlaces = () => {
                                         </p>
                                     </div>
                                     <div className=' flex items-center justify-center gap-4 px-6 mb-2'>
-                                        <button className=' font-semibold px-6 py-2 bg-blue-500 rounded-full hover:bg-white hover:text-blue-600 transition-all duration-300 ease-in-out' onClick={() => document.getElementById('my_modal').showModal()}>Book Now</button>
+                                        <button className=' font-semibold px-6 py-2 bg-blue-500 rounded-full hover:bg-white hover:text-blue-600 transition-all duration-300 ease-in-out' onClick={() => document.getElementById(`my_modal${index}`).showModal()}>Book Now</button>
                                     </div>
                                 </div>
                             </div>
                         </section>
-                        <dialog id="my_modal" className="modal">
+                        <dialog id={`my_modal${index}`} className="modal">
                             <div className="modal-box flex flex-col gap-6 items-center justify-center bg-white/10 backdrop-blur-3xl">
                                 <h2 className="font-bold text-lg text-white">Confirm Booking</h2>
                                 <form className='flex flex-col gap-2' >
                                     <div className=' w-full'>
                                         <label htmlFor="date" className=' ml-2'>From?</label>
-                                        <input type="date" name="date" placeholder='DD-MM-YYYY' id='date' className=' input input-bordered w-full' />
+                                        <input type="date" name="date" placeholder='DD-MM-YYYY' id='date' className=' input input-bordered w-full' value={input.from} onChange={(e) => setInput({ ...input, from: e.target.value })} />
                                     </div>
-                                    <input type="number" placeholder='Number of Days' className=' input input-bordered w-full' value={input.totalDays} onChange={(e) => setInput({ ...input, totalDays: e.target.value })} />
-                                    <input type="number" placeholder='Number of Persons' className=' input input-bordered w-full' value={input.totalPeople} onChange={(e) => setInput({ ...input, totalPeople: e.target.value })} />
+                                    <input type="number" placeholder='Number of Days' className=' input input-bordered w-full' value={input.totalDays} onChange={(e) => setInput({ ...input, totalDays: e.target.value, price: place.budget * input.totalPeople * input.totalDays })} />
+                                    <input type="number" placeholder='Number of Persons' className=' input input-bordered w-full' value={input.totalPeople} onChange={(e) => setInput({ ...input, totalPeople: e.target.value, price: place.budget * input.totalPeople * input.totalDays })} />
                                     <h3 className=' text-center text-white text-lg font-semibold'>Total Cost : ${place.budget * input.totalPeople * input.totalDays}</h3>
                                     <p className=' text-center text-gray-300'>Note : The price is calculated as per persons, days and all types of costs starting from travel from Mumbai is included, you will be contacted on your registered phone number to plan your trip further</p>
-                                    <button className=' btn btn-primary text-white' type='submit'>
+                                    <button
+                                        className=' btn btn-primary text-white'
+                                        type='submit'
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            input.price = place.budget * input.totalPeople * input.totalDays;
+                                            book({ placeId, input });
+                                            setInput({
+                                                from: '',
+                                                totalDays: '',
+                                                totalPeople: '',
+                                                price: ''
+                                            })
+                                            document.getElementById(`my_modal${index}`).close()
+                                        }}
+                                    >
                                         {isBooking ? <div className=' loading loading-spinner'></div> : 'Confirm'}
                                     </button>
                                     <div className="modal-action w-full mt-0">

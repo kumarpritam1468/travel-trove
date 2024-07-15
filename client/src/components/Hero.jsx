@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import { TfiArrowRight } from "react-icons/tfi";
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
   const ref = useRef();
@@ -24,12 +25,12 @@ const Hero = () => {
       </div>
 
       <div>
-        <button className=' w-60 py-2 border border-white backdrop-blur rounded-full flex gap-3 items-center justify-center hover:gap-16 transition-all duration-300 ease-in-out' >
+        <Link to='/discover' className=' w-60 py-2 border border-white backdrop-blur rounded-full flex gap-3 items-center justify-center hover:gap-16 transition-all duration-300 ease-in-out' >
           <h3 className=' text-white font-medium text-lg'>Discover All</h3>
           <div className=' text-xl text-black bg-white rounded-full p-2'>
             <TfiArrowRight />
           </div>
-        </button>
+        </Link>
       </div>
     </section>
   )

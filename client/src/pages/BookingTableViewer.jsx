@@ -1,8 +1,7 @@
 import React from 'react'
-import { placesDummy } from '../data/dummy'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import convertMongoDateToDate from '../utils/lib/convertDate'
-import toast from 'react-hot-toast'
+import useCancelBooking from '../hooks/useCancelBooking'
 
 const BookingTableViewer = () => {
     const queryClient = useQueryClient();
@@ -23,25 +22,7 @@ const BookingTableViewer = () => {
         }
     });
 
-    const { mutate: deleteBooking, isPending: isDeleting } = useMutation({
-        mutationFn: async (bookingId) => {
-            try {
-                const response = await fetch(`/api/bookings/cancel/${bookingId}`, {
-                    method: 'DELETE'
-                });
-
-                const data = await response.json();
-
-                if (!response.ok) throw new Error(data.error || 'Something went wrong');
-            } catch (error) {
-                throw new Error(error);
-            }
-        },
-        onSuccess: () => {
-            toast.success('Deleted Booking');
-            queryClient.invalidateQueries({ queryKey: ['bookings'] });
-        }
-    })
+    const {deleteBooking, isDeleting} = useCancelBooking();
 
     return (
         <section className='allplaces min-h-screen h-fit pt-20 px-20 text-white'>
