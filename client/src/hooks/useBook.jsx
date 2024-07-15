@@ -25,7 +25,6 @@ const useBook = () => {
             toast.success('Booking confirmed');
             queryClient.invalidateQueries({queryKey:['bookings']});
             queryClient.invalidateQueries({queryKey:['authUser']});
-            document.getElementById('my_modal').close();
         },
         onError: (error) =>{
             toast.error(error.message);

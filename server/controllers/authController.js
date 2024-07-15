@@ -98,7 +98,16 @@ const signout = async (req, res) => {
 
 const getMe = async (req, res) => {
     try {
-        const user = await User.findById(req.user._id).select('-password').populate('likes').populate('bookings');
+        const user = await User.findById(req.user._id)
+        .select('-password')
+        .populate('likes')
+        .populate({
+            path: 'bookings',
+            populate: {
+              path: 'place',
+              select: 'name imgUrl'
+            }
+        });
 
         res.status(200).json(user);
     } catch (error) {

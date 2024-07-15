@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
@@ -15,9 +16,9 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-const PORT = process.env.PORT;
-
 const app = express();
+const PORT = process.env.PORT;
+__dirname = path.resolve();
 
 app.use(express.json({limit:'5mb'}));
 app.use(cookieParser());
@@ -25,6 +26,14 @@ app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/places', placeRoutes);
 app.use('/api/bookings', bookingRoutes);
+
+if (process.env.NODE_ENV !== "developement") {
+    app.use(express.static(path.join(__dirname, "/client/dist")));
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
+    });
+}
 
 app.listen(PORT, () => {
     console.log(`Server running on PORT: ${PORT}`);

@@ -14,6 +14,7 @@ import Signup from "./pages/Signup";
 
 import { useQuery } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
+import MyBookings from "./pages/MyBookings";
 
 function App() {
   useEffect(() => {
@@ -69,7 +70,7 @@ function App() {
         <Route path="/signup" element={!authUser ? <Signup /> : <Navigate to='/' />} />
         <Route path="/discover" element={<><Navbar /><DiscoverAll /></>} />
         <Route path="/likes" element={<><UserNavbar /><TableViewer /></>} />
-        <Route path="/bookings" element={<><UserNavbar /><TableViewer /></>} />
+        <Route path="/bookings" element={<><UserNavbar /><MyBookings /></>} />
         <Route path="/admin/places" element={<><AdminNavbar /><TableViewer /></>} />
         <Route path="/admin/bookings" element={<><AdminNavbar /><BookingTableViewer /></>} />
         <Route path="/contact" element={<><Navbar /><Contact /></>} />
