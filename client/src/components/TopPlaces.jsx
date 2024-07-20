@@ -22,7 +22,7 @@ const TopPlaces = () => {
 
     return (
         <section className=' h-[300svh] w-screen overflow-x-hidden'>
-            {filteredPlaces.map((place, index) => {
+            {filteredPlaces?.map((place, index) => {
                 const placeId = place._id;
                 const alreadyLiked = place.likedBy.includes(authUser?._id);
 
