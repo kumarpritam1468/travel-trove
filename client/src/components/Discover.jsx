@@ -14,7 +14,7 @@ const Discover = () => {
     const { like, isLiking } = likePost();
     const { book, isBooking } = useBook();
 
-    const filteredPlaces = places.slice(0, Math.min(3, places.length));
+    const filteredPlaces = places?.slice(0, Math.min(3, places.length));
 
     const { scrollYProgress } = useScroll({
         target: ref,
