@@ -31,7 +31,7 @@ const Discover = () => {
     });
 
     return (
-        <section className='discover h-[100svh] w-screen max-lg:h-fit max-lg:pb-12 flex flex-col gap-10 pt-28 px-16 relative bg-black/30' ref={ref}>
+        <section className='discover h-fit w-screen max-lg:h-fit max-lg:pb-12 flex flex-col gap-10 pt-24 pb-6 px-16 relative bg-black/30' ref={ref}>
             <motion.img src='/ocean.jpg' alt='Ocean' className=' w-screen max-w-screen  h-[100svh] max-lg:h-full object-cover absolute top-0 left-0 -z-10 overflow-hidden' style={{ scale: scaleMotion }} />
             <h1 className='outline2 text-5xl font-bold text-white'>Our Top Picks</h1>
 

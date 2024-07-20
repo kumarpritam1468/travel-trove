@@ -31,6 +31,7 @@ const Login = () => {
         onSuccess: () => {
             toast.success('Logged In');
             queryClient.invalidateQueries({queryKey:['authUser']});
+            window.location.reload();
         },
         onError: (error) => {
             toast.error(error.message);

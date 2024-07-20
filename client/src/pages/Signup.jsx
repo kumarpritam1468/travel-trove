@@ -33,6 +33,7 @@ const Signup = () => {
         onSuccess: () => {
             toast.success('Sign up successful');
             queryClient.invalidateQueries({queryKey:['authUser']});
+            window.location.reload();
         },
         onError: (error) => {
             toast.error(error.message);
